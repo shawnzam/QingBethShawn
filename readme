@@ -1,1 +1,7 @@
-This edit was done on github
+Client: 
+encrypt and send
+decrypt and receive 
+
+Server: 
+Has one main thread with thread safe queue, spawn thread
+New thread pass message to correct client  
