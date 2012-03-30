@@ -1,7 +1,7 @@
 import re, sys, fractions, random, math
 
 #This is Beth! Testing updating file!
-#This is Qing! TESTINT
+#This is Qing!let's try it again~
 public = [0 for x in range(2)]
 private = [0 for x in range(2)]
 def isPrime(n):
