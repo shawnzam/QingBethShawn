@@ -1,7 +1,9 @@
 Client: 
-encrypt and send
-decrypt and receive 
+encrypt and send -
+decrypt and receive -
 
 Server: 
-Has one main thread with thread safe queue, spawn thread
-New thread pass message to correct client  
+Has one main thread with thread safe queue, spawn thread -
+New thread pass message to correct client  -
+
+add your name if you are doing that job
