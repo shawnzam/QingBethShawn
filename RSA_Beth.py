@@ -1,7 +1,5 @@
 # Elizabeth Cooper
-#RSA.py
-#Due Oct. 21, 2011s
-# CIT 592
+#RSA_Beth.py
 
 import random
 import math
