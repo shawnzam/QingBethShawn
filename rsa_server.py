@@ -8,6 +8,8 @@ import threading
 import Queue
 
 QUEUE = Queue()
+#PUT HOST & PORT HERE
+#What protocol are we using? 
 
 
 def process_queue(client_socket, message):
@@ -18,7 +20,6 @@ class QueueThread(threading.Thread):
     """Decodes and processes client messages."""
     def __init__(self):
         threading.Thread.__init__(self)
-        self.daemon = True
 
     def run(self):
         """Get each message off the queue and process it."""
@@ -40,8 +41,8 @@ def ConnectionHandler(threading.Thread):
 def main():
     """Start the server and spawn threads to handle each request"""            
     # Set up the listening socket
-    #TODO: (BC) IS THIS THE RIGHT KIND OF SOCKET TO USE?  CHECK WHAT IT
-    #SHOULD BE
+    HOST = 'localhost'
+    PORT = 8282 #random port number, can change this
     listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
@@ -55,9 +56,8 @@ def main():
         while True: 
             client, address = listen_socket.accept()
             #Spawn a thread as each client connects
-            conn = ConnectionHandler(client)    
-            conn.start()
-            print "New connection from %s" % str(address)
+            client_connection = ConnectionHandler(client)    
+            client_connection.start()
     except KeyboardInterrupt:
         pass
     finally:
