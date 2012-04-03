@@ -4,6 +4,7 @@
    Qing Xie"""
 
 import socket
+import SocketServer
 import threading
 import Queue
 
@@ -41,18 +42,29 @@ def ConnectionHandler(threading.Thread):
 def main():
     """Start the server and spawn threads to handle each request"""            
     # Set up the listening socket
+    #http://docs.python.org/library/socketserver.html use as sample TCP
+    
     HOST = 'localhost'
     PORT = 8282 #random port number, can change this
-    listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    listen_socket.bind((HOST, PORT))
-    listen_socket.listen(1)
+    listen_socket = SocketServer.TCPServer((HOST, PORT), ConnectionHandler)
+    #listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    #listen_socket.bind((HOST, PORT))
+    #listen_socket.listen(1)
+    
 
     # Start the thread to process the queue
     QueueThread().start()
     
     # Accept connections
-    try:
+   try:
+      listen_socket.server_forever()
+   except KeyboardInterrupt:
+      pass
+   finally:
+      listen_socket.close()
+    
+   """ try:
         while True: 
             client, address = listen_socket.accept()
             #Spawn a thread as each client connects
@@ -61,7 +73,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        listen_socket.close()
+        listen_socket.close()"""
     
     
 if __name__ == "__main__":
