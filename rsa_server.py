@@ -40,8 +40,6 @@ def ConnectionHandler(threading.Thread):
 def main():
     """Start the server and spawn threads to handle each request"""            
     # Set up the listening socket
-    #TODO: (BC) IS THIS THE RIGHT KIND OF SOCKET TO USE?  CHECK WHAT IT
-    #SHOULD BE
     listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
@@ -57,7 +55,6 @@ def main():
             #Spawn a thread as each client connects
             conn = ConnectionHandler(client)    
             conn.start()
-            print "New connection from %s" % str(address)
     except KeyboardInterrupt:
         pass
     finally:
