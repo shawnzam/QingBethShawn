@@ -23,5 +23,9 @@ def send(message):
         print message
 
 
-myconnect("", 8888)
-send("foobar")
+def main():
+   myconnect("", 8888)
+   send("foobar")
+
+if __name__ == "__main__":
+    main()
