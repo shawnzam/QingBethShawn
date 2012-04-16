@@ -1,6 +1,6 @@
 Client: 
 encrypt and send -
-decrypt and receive -
+decrypt and receive - Shawn
 
 Server: 
 Has one main thread with thread safe queue, spawn thread -  BETH
