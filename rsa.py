@@ -60,7 +60,7 @@ def encrypt(c, public):
     #global public
     print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
-    print ansii
+    #print ansii
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 

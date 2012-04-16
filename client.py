@@ -21,7 +21,6 @@ def send(message, keys):
     encryptedMessage = ''
     for c in formattedMessage:
         encryptedChunk = str(rsa.encrypt(c, keys[0]))  
-        print encryptedChunk
     	neededZeros = BLOCK_SIZE - len(encryptedChunk)
     	encryptedMessage += neededZeros * '0' + encryptedChunk
     while (totalsent < len(encryptedMessage)):
@@ -29,7 +28,6 @@ def send(message, keys):
         if sent == 0:
             raise RuntimeError("connection broken")
         totalsent = totalsent + sent
-        print encryptedMessage
         return encryptedMessage
 
 def main():
