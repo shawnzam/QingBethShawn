@@ -9,6 +9,7 @@ import Queue
 from rsa import all
 
 QUEUE = Queue()
+<<<<<<< HEAD
 READ_SIZE = 1024
 PORT = 8888
 HOST = 'localhost'
@@ -16,6 +17,27 @@ BLOCK_SIZE = 10
 
 
 class ConnectionHandler(threading.Thread):
+=======
+
+
+def process_queue(client_socket, message):
+    """Decodes the message in the queue"""
+    #TODO: Fill in this function
+
+class QueueThread(threading.Thread):
+    """Decodes and processes client messages."""
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+
+    def run(self):
+        """Get each message off the queue and process it."""
+        while True:
+            process_queue(*QUEUE.get())
+            QUEUE.task_done()
+
+def ConnectionHandler(threading.Thread):
+>>>>>>> 77d3f82cf142eeacfbf405e07dc01218e5c672f1
     """Handles each client's message by adding it to the queue"""
     def __init__(self, client_socket):
         threading.Thread.__init__(self)
@@ -47,6 +69,12 @@ def main():
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
     listen_socket.listen(1)
+<<<<<<< HEAD
+=======
+
+    # Start the thread to process the queue
+    QueueThread().start()
+>>>>>>> 77d3f82cf142eeacfbf405e07dc01218e5c672f1
     
     # Accept connections
     try:
@@ -63,3 +91,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+

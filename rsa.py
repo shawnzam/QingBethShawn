@@ -56,30 +56,32 @@ def modInverse(a,m) :
        return x
   return None
 
-def encrypt(c):
-    global public
+def encrypt(c, public):
+    #global public
     print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
-    print ansii
+    #print ansii
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 
-def decrypt(c):
-    global private
+def decrypt(c, priavte):
+    #global private
     print "decrypting {0} with ({1},{2})".format(c,private[0],private[1])
     temp = (c**private[0])%private[1]
     return chr(temp)
         
-def main():
+def initializeKeys():
     global public
-    msg="Hello! I like cheese and crackers?"
-    rmsg=''
+    ##msg="Hello! I like cheese and crackers?"
+    ##rmsg=''
     x = getprimes(random.randint(5, 100),(random.randint(5, 100)))
     computekeys(x)
+    
     print "Your Public keys are ({0},{1}).\nYour private keys are ({2},{3}).".format(public[0],public[1],private[0], private[1])
-    for c in msg:
-        temp = encrypt(c)
-        rmsg += decrypt(temp)
-    print rmsg
-main()
+    return [public, private]
+    ##for c in msg:
+      ##  temp = encrypt(c)
+      ##  rmsg += decrypt(temp)
+    ##print rmsg
+
 
