@@ -7,3 +7,10 @@ Has one main thread with thread safe queue, spawn thread -  BETH
 New thread pass message to correct client  -
 
 add your name if you are doing that job
+
+I am using 8888 as the default port. I am aslo sending messages formatted like so:
+
+'message:' is prepended the the message and '/n/n' is appended 
+
+We are also using a block size of 10 for each encrypted char
+
