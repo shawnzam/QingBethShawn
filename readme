@@ -14,11 +14,5 @@ I am using 8888 as the default port. I am aslo sending messages formatted like s
 
 We are also using a block size of 10 for each encrypted char
 
-Client logs into server and sends its public key. 
-Server listens for messgae
-Client sends encrypted message and print screen.
-Server decrypts message and prints it to screen.
-Client listens for reply
-Server sends encrypted message and print screen.
-Client decrypts message and prints it to screen.
-...
+Client has a thread to listen and a thread to write
+Server also has a thread to listen and anoher to write
