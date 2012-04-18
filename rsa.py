@@ -9,7 +9,6 @@ def isPrime(n):
     return re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None
 def getprimes(m, n):
     primes = [0 for x in range(2)]
- 
     count = 0
     index = 0
     while (m != count):
@@ -64,9 +63,10 @@ def encrypt(c, public):
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 
-def decrypt(ch, e, c):
+def decrypt(ch, private):
     #global private
-    
+    e = private[0]
+    c = private[1]
     #print "decrypting {0} with ({1},{2})".format(ch,e,c)
     e = int(e)
     c = int(c)
@@ -76,7 +76,7 @@ def decrypt(ch, e, c):
     return chr(temp)
         
 def initializeKeys():
-    global public
+    #global public
     ##msg="Hello! I like cheese and crackers?"
     ##rmsg=''
     x = getprimes(random.randint(5, 100),(random.randint(5, 100)))
