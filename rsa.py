@@ -9,7 +9,6 @@ def isPrime(n):
     return re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None
 def getprimes(m, n):
     primes = [0 for x in range(2)]
- 
     count = 0
     index = 0
     while (m != count):
@@ -58,20 +57,26 @@ def modInverse(a,m) :
 
 def encrypt(c, public):
     #global public
-    print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
+    #print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
     #print ansii
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 
-def decrypt(c, priavte):
+def decrypt(ch, private):
     #global private
-    print "decrypting {0} with ({1},{2})".format(c,private[0],private[1])
-    temp = (c**private[0])%private[1]
+    e = private[0]
+    c = private[1]
+    #print "decrypting {0} with ({1},{2})".format(ch,e,c)
+    e = int(e)
+    c = int(c)
+    ch = int(ch)
+    temp = (ch**e)%c
+    #print temp
     return chr(temp)
         
 def initializeKeys():
-    global public
+    #global public
     ##msg="Hello! I like cheese and crackers?"
     ##rmsg=''
     x = getprimes(random.randint(5, 100),(random.randint(5, 100)))
