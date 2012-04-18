@@ -9,6 +9,7 @@ from threading import Thread
 import rsa
 import sys
 
+
 ##Your Public keys are (43,10721).
 ##Your private keys are (3907,10721)
 PUBLIC = [43, 10721]
@@ -21,10 +22,6 @@ PORT = 8888
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-r = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-
-
 
 
 def myconnect(host, port):
@@ -61,20 +58,23 @@ def recv(s, keys):
         for msg in msg_list:
            decrypted_msg += rsa.decrypt(int(msg), PRIVATE[0], PRIVATE[1])
         if decrypted_msg == "message: quit\n\n":
-            break  
+            break   
         print decrypted_msg
         
 
 def main():
-   myconnect(HOST, PORT)
-   sendThread = Thread(target=send, args=(s, PUBLIC))
-   recvThread = Thread(target=recv, args=(s, PUBLIC))
+   s.bind((HOST, PORT))
+   s.listen(1)
+   conn, address = s.accept()
+   sendThread = Thread(target=send, args=(conn, PUBLIC))
+   recvThread = Thread(target=recv, args=(conn, PUBLIC))
+   recvThread.start() 
    sendThread.start()
-   recvThread.start()
    recvThread.join()
    sendThread.join()
-   s.close()
+   conn.close()
    sys.exit()
+   
   
 
     

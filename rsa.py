@@ -64,10 +64,15 @@ def encrypt(c, public):
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 
-def decrypt(c, priavte):
+def decrypt(ch, e, c):
     #global private
-    print "decrypting {0} with ({1},{2})".format(c,private[0],private[1])
-    temp = (c**private[0])%private[1]
+    
+    print "decrypting {0} with ({1},{2})".format(ch,e,c)
+    e = int(e)
+    c = int(c)
+    ch = int(ch)
+    temp = (ch**e)%c
+    print temp
     return chr(temp)
         
 def initializeKeys():
