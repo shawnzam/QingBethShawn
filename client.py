@@ -19,6 +19,7 @@ BLOCK_SIZE = 10
 HOST ="localhost"
 PORT = 8888
 serverPublic = [0 for x in range(2)]
+RUNNING = True
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -27,13 +28,18 @@ def myconnect(host, port):
     s.connect((host, port))
     
 def send (s, keys):
-    mykeys = keys[0] + "," + keys[1]
+    global RUNNING
+    mykeys = str(keys[0]) + "," + str(keys[1])
     print mykeys
-    s.send(mykeys)
-    while 1:
+    totalsent = 0
+    while (totalsent < len(mykeys)):
+        sent = s.send(mykeys[totalsent:])
+        if sent == 0:
+            raise RuntimeError("connection broken")
+        totalsent = totalsent + sent
+        
+    while RUNNING:
         message = raw_input("")
-        if message == "quit":
-            break
         totalsent = 0
         #formattedMessage = "message: " + message + "\n\n"
         encryptedMessage = ''
@@ -46,13 +52,20 @@ def send (s, keys):
             if sent == 0:
                 raise RuntimeError("connection broken")
             totalsent = totalsent + sent
+        if message == "quit":
+            RUNNING = False
+            break
 
 def recv(s, keys):
     global serverPublic
+    global RUNNING
     temp = s.recv(READ_SIZE)
     print temp
-    serverPublic = temp.split(',')
-    while 1:
+    tempPublic = temp.split(',')
+    serverPublic[0] = int(tempPublic[0])
+    serverPublic[1] = int(tempPublic[1])
+    
+    while RUNNING:
         message = s.recv(READ_SIZE)
         if message == "":
             break
@@ -67,6 +80,8 @@ def recv(s, keys):
         if decrypted_msg == "message: quit\n\n":
             break  
         print decrypted_msg
+        if decrypted_msg.lower() == "quit":
+            RUNNING = False
         
 
 def main():
