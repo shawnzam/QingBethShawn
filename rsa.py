@@ -58,7 +58,7 @@ def modInverse(a,m) :
 
 def encrypt(c, public):
     #global public
-    print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
+    #print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
     #print ansii
     encrypt =(ansii**public[0])%public[1]
@@ -67,12 +67,12 @@ def encrypt(c, public):
 def decrypt(ch, e, c):
     #global private
     
-    print "decrypting {0} with ({1},{2})".format(ch,e,c)
+    #print "decrypting {0} with ({1},{2})".format(ch,e,c)
     e = int(e)
     c = int(c)
     ch = int(ch)
     temp = (ch**e)%c
-    print temp
+    #print temp
     return chr(temp)
         
 def initializeKeys():

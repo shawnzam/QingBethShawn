@@ -21,11 +21,6 @@ PORT = 8888
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-r = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-
-
-
 
 def myconnect(host, port):
     s.connect((host, port))
@@ -36,9 +31,9 @@ def send (s, keys):
         if message == "quit":
             break
         totalsent = 0
-        formattedMessage = "message: " + message + "\n\n"
+        #formattedMessage = "message: " + message + "\n\n"
         encryptedMessage = ''
-        for c in formattedMessage:
+        for c in message:
             encryptedChunk = str(rsa.encrypt(c, PUBLIC))  
             neededZeros = BLOCK_SIZE - len(encryptedChunk)
             encryptedMessage += neededZeros * '0' + encryptedChunk
@@ -47,16 +42,17 @@ def send (s, keys):
             if sent == 0:
                 raise RuntimeError("connection broken")
             totalsent = totalsent + sent
+
 def recv(s, keys):
     while 1:
         message = s.recv(READ_SIZE)
         if message == "":
             break
-        print "Encrypted Message: " + message
+        #print "Encrypted Message: " + message
         msg_list =[]
         for i in range(0, len(message), BLOCK_SIZE):
            msg_list.append(message[i: i + BLOCK_SIZE])
-        print msg_list
+        #print msg_list
         decrypted_msg = ""
         for msg in msg_list:
            decrypted_msg += rsa.decrypt(int(msg), PRIVATE[0], PRIVATE[1])

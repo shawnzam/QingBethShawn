@@ -33,9 +33,9 @@ def send (s, keys):
         if message == "quit":
             break
         totalsent = 0
-        formattedMessage = "message: " + message + "\n\n"
+        #formattedMessage = "message: " + message + "\n\n"
         encryptedMessage = ''
-        for c in formattedMessage:
+        for c in message:
             encryptedChunk = str(rsa.encrypt(c, PUBLIC))  
             neededZeros = BLOCK_SIZE - len(encryptedChunk)
             encryptedMessage += neededZeros * '0' + encryptedChunk
@@ -49,11 +49,11 @@ def recv(s, keys):
         message = s.recv(READ_SIZE)
         if message == "":
             break
-        print "Encrypted Message: " + message
+        #print "Encrypted Message: " + message
         msg_list =[]
         for i in range(0, len(message), BLOCK_SIZE):
            msg_list.append(message[i: i + BLOCK_SIZE])
-        print msg_list
+        #print msg_list
         decrypted_msg = ""
         for msg in msg_list:
            decrypted_msg += rsa.decrypt(int(msg), PRIVATE[0], PRIVATE[1])
