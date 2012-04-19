@@ -1,3 +1,8 @@
+"""Brute Force Solver - RSA Assignment.
+   Beth Cooper
+   Shawn Zamechek
+   Qing Xie"""
+
 import math
 import rsa
 
@@ -15,6 +20,7 @@ def bruteForce(number):
     return -1
 
 def findPrivate(public_key):
+    """Finds the private key, d. Parameter is an array of [e, c]"""
     e = public_key[0]
     c = public_key[1]
     
@@ -30,20 +36,19 @@ def findPrivate(public_key):
 
         
 def main():
-    #TODO: Put read from network here
+    """Main just used for testing"""
     global PUBLIC_KEY
     global BLOCK_SIZE
     
     public = [PUBLIC_KEY[0], PUBLIC_KEY[1]]
     e = PUBLIC_KEY[0]
-    c = PUBLIC_KEY[1]
+    c = PUBLIC_KEY[1]s
     d = findPrivate(public)
 
     first_msg = "Hello world"
     encryptedMessage = ""
     decryptedMessage = ""
     
-    #TODO: Put read message here
     for char in first_msg:
         block = str(rsa.encrypt(char, public))  
         neededZeros = BLOCK_SIZE - len(block)
