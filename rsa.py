@@ -5,8 +5,10 @@ import re, sys, fractions, random, math
 public = [0 for x in range(2)]
 private = [0 for x in range(2)]
 def isPrime(n):
+    """Checks if a number is prime"""
     # see http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/
     return re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None
+
 def getprimes(m, n):
     primes = [0 for x in range(2)]
     count = 0
@@ -46,9 +48,10 @@ def coprime(x):
     while (fractions.gcd(cp, x) != 1):
         cp = random.randint(1, 100)
     return cp
+
 def modInverse(a,m) :
-  #Computes the modular multiplicative inverse of a modulo m,
-  #using brute force
+  """Computes the modular multiplicative inverse of a modulo m,
+     using brute force"""
   a %= m
   for x in range(1,m) :
     if a*x%m == 1 :
@@ -56,6 +59,7 @@ def modInverse(a,m) :
   return None
 
 def encrypt(c, public):
+    """Encrypts the message"""
     #global public
     #print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
@@ -64,21 +68,19 @@ def encrypt(c, public):
     return encrypt
 
 def decrypt(ch, private):
+    """Decrypts the message"""
     #global private
-    e = private[0]
+    d = private[0]  
     c = private[1]
-    #print "decrypting {0} with ({1},{2})".format(ch,e,c)
-    e = int(e)
+    #print "decrypting {0} with ({1},{2})".format(ch,d,c)
+    d = int(d)
     c = int(c)
     ch = int(ch)
-    temp = (ch**e)%c
-    #print temp
+    temp = (ch**d)%c
     return chr(temp)
         
 def initializeKeys():
-    #global public
-    ##msg="Hello! I like cheese and crackers?"
-    ##rmsg=''
+    """Initializes the public & private keys"""
     x = getprimes(random.randint(5, 100),(random.randint(5, 100)))
     computekeys(x)
     
