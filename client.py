@@ -15,6 +15,8 @@ import socket
 from threading import Thread
 import rsa
 import sys, time
+import bruteforce
+
 
 READ_SIZE = 1024
 BLOCK_SIZE = 10
@@ -71,7 +73,6 @@ def recv(s, keys):
     global serverPublic
     global RUNNING
     temp = s.recv(READ_SIZE)
-    #print temp
     tempPublic = temp.split(',')
     serverPublic[0] = int(tempPublic[0])
     serverPublic[1] = int(tempPublic[1])
@@ -81,6 +82,11 @@ def recv(s, keys):
     remotePort = str(connDets[1])
     print  "connected to " + remoteIP + ":" + remotePort
     time.sleep(.1)#sleep used to clean up printing errors due to thread order.
+    print "Sending the server's public"
+    print serverPublic
+    serverPrivate = bruteforce.findPrivate(serverPublic)
+    print  "Brute force cracked the server's private key!"
+    print "Server's private d equals " + str(serverPrivate)
     while RUNNING:
         message = s.recv(READ_SIZE)
         if message == "":
