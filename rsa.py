@@ -1,3 +1,8 @@
+"""RSA - RSA Assignment.
+   Beth Cooper
+   Shawn Zamechek
+   Qing Xie"""
+
 import re, sys, fractions, random, math
 
 #This is Beth! Testing updating file!
