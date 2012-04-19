@@ -1,19 +1,21 @@
-"""Chat server - RSA Assignment.
-   Beth Cooper
-   Shawn Zamechek
-   Qing Xie"""
+"""
+Chat Client - RSA Assignment.
+Beth Cooper
+Shawn Zamechek
+Qing Xie
+
+Threaded Chat Client. There is a thread to read from the keyboard and
+write to the socket and another thread to read from the socket and print to the screen.
+The send thread sends the public key to the client while the recv thread receives the server's
+public key and assigns the key to the global variable serverPublic. 
+"""
 
 
 import socket
 from threading import Thread
 import rsa
-import sys
+import sys, time
 
-##Your Public keys are (43,10721).
-##Your private keys are (3907,10721)
-##PUBLIC = [43, 10721]
-##PRIVATE = [3907,10721]
-##SERVERPUBLIC = [49, 6437]
 READ_SIZE = 1024
 BLOCK_SIZE = 10
 HOST ="localhost"
@@ -21,27 +23,33 @@ PORT = 8888
 serverPublic = [0 for x in range(2)]
 RUNNING = True
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #global socket
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+"""
+I do not the like passing one param with a comma separator, Seems confusing so wrote my own version of connect 
+"""
 def myconnect(host, port):
     s.connect((host, port))
     
+"""
+Called by the send thread. This function sends its own public key to the server. It then enters a loop to read from the keyboard and write to the socket. It encrypts the message using the server's public key.
+"""
 def send (s, keys):
     global RUNNING
     mykeys = str(keys[0]) + "," + str(keys[1])
-    print mykeys
     totalsent = 0
     while (totalsent < len(mykeys)):
         sent = s.send(mykeys[totalsent:])
         if sent == 0:
             raise RuntimeError("connection broken")
         totalsent = totalsent + sent
-        
+    print "Public key sent"
+    time.sleep(.1)#sleep used to clean up printing errors due to thread order.
+    print "Enter a Message"
     while RUNNING:
         message = raw_input("")
         totalsent = 0
-        #formattedMessage = "message: " + message + "\n\n"
         encryptedMessage = ''
         for c in message:
             encryptedChunk = str(rsa.encrypt(c, serverPublic))  
@@ -56,30 +64,36 @@ def send (s, keys):
             RUNNING = False
             break
 
+"""
+Called by the recv thread. This function receives the server's public key. It then enters a loop to read from the socket and write to the screen. It decrypts the message using its own public key.
+"""
 def recv(s, keys):
     global serverPublic
     global RUNNING
     temp = s.recv(READ_SIZE)
-    print temp
+    #print temp
     tempPublic = temp.split(',')
     serverPublic[0] = int(tempPublic[0])
     serverPublic[1] = int(tempPublic[1])
-    
+    print "Public key Received"
+    connDets = s.getpeername()
+    remoteIP = connDets[0]
+    remotePort = str(connDets[1])
+    print  "connected to " + remoteIP + ":" + remotePort
+    time.sleep(.1)#sleep used to clean up printing errors due to thread order.
     while RUNNING:
         message = s.recv(READ_SIZE)
         if message == "":
             break
-        #print "Encrypted Message: " + message
         msg_list =[]
         for i in range(0, len(message), BLOCK_SIZE):
            msg_list.append(message[i: i + BLOCK_SIZE])
-        #print msg_list
         decrypted_msg = ""
         for msg in msg_list:
            decrypted_msg += rsa.decrypt(int(msg), keys)
         if decrypted_msg == "message: quit\n\n":
             break  
-        print decrypted_msg
+        print remoteIP + ":" + remotePort + ": " + decrypted_msg
         if decrypted_msg.lower() == "quit":
             RUNNING = False
         
@@ -102,4 +116,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-

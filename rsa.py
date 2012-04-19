@@ -1,12 +1,21 @@
+
+"""
+RSA implementation - RSA Assignment.
+Beth Cooper
+Shawn Zamechek
+Qing Xie
+
+This is our RSA implementation
+"""
 import re, sys, fractions, random, math
 
-#This is Beth! Testing updating file!
-#This is Qing!let's try it again~
-public = [0 for x in range(2)]
+
+public = [0 for x in range(2)] 
 private = [0 for x in range(2)]
+
 def isPrime(n):
-    """Checks if a number is prime"""
     # see http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/
+    # only using it to be cool!
     return re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None
 
 def getprimes(m, n):
@@ -60,19 +69,14 @@ def modInverse(a,m) :
 
 def encrypt(c, public):
     """Encrypts the message"""
-    #global public
-    #print "encrypting {0} with ({1},{2})".format(c,public[0],public[1])
     ansii = ord(c)
-    #print ansii
     encrypt =(ansii**public[0])%public[1]
     return encrypt
 
 def decrypt(ch, private):
     """Decrypts the message"""
-    #global private
     d = private[0]  
     c = private[1]
-    #print "decrypting {0} with ({1},{2})".format(ch,d,c)
     d = int(d)
     c = int(c)
     ch = int(ch)
@@ -83,12 +87,8 @@ def initializeKeys():
     """Initializes the public & private keys"""
     x = getprimes(random.randint(5, 100),(random.randint(5, 100)))
     computekeys(x)
-    
     print "Your Public keys are ({0},{1}).\nYour private keys are ({2},{3}).".format(public[0],public[1],private[0], private[1])
     return [public, private]
-    ##for c in msg:
-      ##  temp = encrypt(c)
-      ##  rmsg += decrypt(temp)
-    ##print rmsg
+
 
 
