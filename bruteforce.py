@@ -42,7 +42,7 @@ def main():
     
     public = [PUBLIC_KEY[0], PUBLIC_KEY[1]]
     e = PUBLIC_KEY[0]
-    c = PUBLIC_KEY[1]s
+    c = PUBLIC_KEY[1]
     d = findPrivate(public)
 
     first_msg = "Hello world"
