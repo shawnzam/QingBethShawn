@@ -1,0 +1,45 @@
+SERVER README
+Elizabeth Cooper
+Qing Xie
+Shawn Zamechek
+***********************************************************************
+
+Running the server
+*******************
+We used Python 2.7 for this project, and it is NOT compatible with 3.2.
+The server can be started by just typing python server.py (it does 
+not take any arguments.)
+
+
+How the program works
+**********************
+We have hard coded the port to port 8888, and the host to 'localhost'
+as well as the block size for encryption and decryption.  
+
+When the server starts, it begins listening for connections.  When it
+gets one, it spawns to threads: one to handle sending messages and 
+one to handle receiving messages.  These threads run until the client
+and server quit.  
+
+The receive thread expects the very first thing sent to be the public key.
+Without this, the program would fail to decrypt correctly.  It also 
+hacks the client's private key given the public key.
+
+QUITING THE PROGRAM
+***********************
+Both the client and server need to type quit in order to exit.
+This must happening because we have two threads that do not speak 
+to eachother, except through a shared boolean.  This will get
+stuck on the send/receive depending on whether the client or server
+is doing the quitting.  This is why, we had to force both to send
+a quit message.
+
+CHOICES MADE - SERVER BEHAVIOR
+******************************
+Since the server is essentially acting as a client (ie it is chatting
+with the client instead of just allowing clients to connect & acting as 
+the mechanism allowing clients to talk), we treated it more as a client
+then as a traditional server.  This is why we decided to have the 
+server only handle one client connection and then to quit when the client
+disconnects.  
+
