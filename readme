@@ -56,6 +56,16 @@ server only handle one client connection and then to quit when the client
 disconnects.  
 
 
+BRUTE FORCE
+******************************
+
+The public key consists of the modulus n and the public (or encryption) exponent e. 
+The private key consists of the modulus n and the private (or decryption) exponent d 
+which must be kept secret.In the brute force function, we used public key c 14921 as 
+the number to be passed into the function "bruteForce" in order to find out the prime 
+number p. if we can get the number p(the return value), we will pass the number into 
+findPrivate function to generate the other prime number q and m((p-1)(q-1))and private 
+key d. 
 
 
 
