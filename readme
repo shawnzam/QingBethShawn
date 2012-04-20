@@ -1,18 +1,55 @@
-Client: 
-encrypt and send - Shawn
-decrypt and receive - Shawn
+SERVER README
+Elizabeth Cooper
+Qing Xie
+Shawn Zamechek
+***********************************************************************
 
-Server: 
-Has one main thread with thread safe queue, spawn thread -  BETH
-New thread pass message to correct client  -
+Running the server
+*******************
+We used Python 2.7 for this project, and it is NOT compatible with 3.2.
+The server can be started by just typing python server.py (it does 
+not take any arguments.)
 
-add your name if you are doing that job
+Running the client
+*******************
+We used Python 2.7 for this project, and it is NOT compatible with 3.2.
+The server can be started by just typing python server.py (it does 
+not take any arguments.)
 
-I am using 8888 as the default port. I am aslo sending messages formatted like so:
 
-'message:' is prepended the the message and '/n/n' is appended 
+How the program works
+**********************
+We have hard coded the port to port 8888, and the host to 'localhost'
+as well as the block size for encryption and decryption.  
 
-We are also using a block size of 10 for each encrypted char
+When the server starts, it begins listening for connections.  When it
+gets one, it spawns to threads: one to handle sending messages and 
+one to handle receiving messages.  These threads run until the client
+and server quit.  
 
-Client has a thread to listen and a thread to write
-Server also has a thread to listen and anoher to write
+The receive thread expects the very first thing sent to be the public key.
+Without this, the program would fail to decrypt correctly.  It also 
+hacks the client's private key given the public key.
+
+QUITING THE PROGRAM
+***********************
+Both the client and server need to type quit in order to exit.
+This must happening because we have two threads that do not speak 
+to eachother, except through a shared boolean.  This will get
+stuck on the send/receive depending on whether the client or server
+is doing the quitting.  This is why, we had to force both to send
+a quit message.
+
+CHOICES MADE - SERVER BEHAVIOR
+******************************
+Since the server is essentially acting as a client (ie it is chatting
+with the client instead of just allowing clients to connect & acting as 
+the mechanism allowing clients to talk), we treated it more as a client
+then as a traditional server.  This is why we decided to have the 
+server only handle one client connection and then to quit when the client
+disconnects.  
+
+
+
+
+
