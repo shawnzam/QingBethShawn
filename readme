@@ -25,11 +25,17 @@ as well as the block size for encryption and decryption.
 When the server starts, it begins listening for connections.  When it
 gets one, it spawns to threads: one to handle sending messages and 
 one to handle receiving messages.  These threads run until the client
+and server quit.
+
+When the client starts, it connects to the server using the hardcoded server 
+and port.  When it connects, it spawns two threads: one to handle sending messages and 
+one to handle receiving messages.  These threads run until the client
 and server quit.  
 
-The receive thread expects the very first thing sent to be the public key.
-Without this, the program would fail to decrypt correctly.  It also 
-hacks the client's private key given the public key.
+On both the server and client the receive thread expects the very first thing sent 
+to be the public key. Without this, the program would fail to decrypt correctly.  Both the server and client  
+hack eachother's private key given the public key.
+
 
 QUITING THE PROGRAM
 ***********************
