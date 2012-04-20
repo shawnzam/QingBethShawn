@@ -51,6 +51,10 @@ def send (s, public_keys):
     print "Enter a message: "
     while RUNNING:
         message = raw_input("")
+        if message.lower() == "quit":
+           RUNNING = False
+           s.close()
+     
         totalsent = 0
         encryptedMessage = ''
         #Encrypt the message character by character
@@ -124,7 +128,6 @@ def main():
     private = keys[1]  #I am going to use this to decrypt
     public = keys[0]  #send this to the client
     print "Running the server..."
-    keys = rsa.initializeKeys()
     s.bind((HOST, PORT))
     s.listen(1)
     conn, address = s.accept()

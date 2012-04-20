@@ -64,6 +64,7 @@ def send (s, keys):
             totalsent = totalsent + sent
         if message == "quit":
             RUNNING = False
+            s.close()
             break
 
 """
@@ -102,8 +103,7 @@ def recv(s, keys):
         print remoteIP + ":" + remotePort + ": " + decrypted_msg
         if decrypted_msg.lower() == "quit":
             RUNNING = False
-        
-
+            s.close()
 def main():
    keys = rsa.initializeKeys()
    public = keys[0]
